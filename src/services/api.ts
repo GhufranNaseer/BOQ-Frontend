@@ -1,13 +1,7 @@
 import axios from 'axios';
 
-const baseURL = import.meta.env.VITE_API_URL || '/api';
-// Add CORS proxy for production
-const finalURL = baseURL.startsWith('http') && !baseURL.includes('localhost') 
-    ? `https://cors-anywhere.herokuapp.com/${baseURL}`
-    : baseURL;
-
 const api = axios.create({
-    baseURL: finalURL,
+    baseURL: import.meta.env.VITE_API_URL || '/api',
 });
 
 // Request interceptor to add JWT token
