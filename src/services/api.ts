@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+const base = (import.meta.env.VITE_API_URL as string) || '/api';
+
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || '/api',
+    baseURL: base,
 });
 
 // Request interceptor to add JWT token
@@ -25,7 +27,12 @@ api.interceptors.response.use(
         if (error.response?.status === 401) {
             localStorage.removeItem('token');
             localStorage.removeItem('user');
-            window.location.href = '/login';
+            if (import.meta.env.PROD) {
+                // On GitHub Pages we use HashRouter; navigate via hash to avoid full-page reloads/404s
+                window.location.hash = '/login';
+            } else {
+                window.location.href = '/login';
+            }
         }
         return Promise.reject(error);
     }

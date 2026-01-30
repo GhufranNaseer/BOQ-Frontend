@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { PrivateRoute } from './PrivateRoute';
 import { AdminRoute } from './AdminRoute';
 import { useAuth } from '../context/AuthContext';
@@ -22,7 +22,7 @@ const AppRoutes: React.FC = () => {
     const { isAuthenticated, isAdmin } = useAuth();
 
     return (
-        <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <HashRouter>
             <Suspense fallback={<LoadingFallback />}>
                 <Routes>
                     {/* Public route */}
@@ -54,7 +54,7 @@ const AppRoutes: React.FC = () => {
                     <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
             </Suspense>
-        </BrowserRouter>
+        </HashRouter>
     );
 };
 
